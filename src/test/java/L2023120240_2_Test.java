@@ -25,7 +25,7 @@ public class L2023120240_2_Test {
     @Test
     public void testAllUniqueCharacters() {
         String input = "abc";
-        String expected = "acb";
+        String expected = "abc";
         assertEquals(expected, solution2.removeDuplicateLetters(input));
     }
 

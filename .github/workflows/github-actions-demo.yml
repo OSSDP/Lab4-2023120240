@@ -24,3 +24,22 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
       - name: Run tests with Maven
         run: mvn -B test --file pom.xml
+
+  auto-merge:
+    needs: run_tests
+    runs-on: ubuntu-latest
+    if: success()
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Merge PR
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git checkout main
+          git merge --no-ff ${{ github.head_ref }}
+          git push origin main
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY_SECRET_KEY }}
